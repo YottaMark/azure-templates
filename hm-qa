@@ -1,0 +1,1206 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_hm_qa_jump01_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_hm_qa_pg_m_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_hm_qa_pg_m_primary": {
+            "defaultValue": null,
+            "type": "Bool"
+        },
+        "virtualMachines_hm_qa_sftp_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_hm_qa_sidekiq01_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_hm_qa_web01_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_hm_qa_web01_primary": {
+            "defaultValue": null,
+            "type": "Bool"
+        },
+        "Redis_hm_qa_cache_name": {
+            "defaultValue": "hm-qa-cache",
+            "type": "String"
+        },
+        "availabilitySets_hmqajumpav_name": {
+            "defaultValue": "hmqajumpav",
+            "type": "String"
+        },
+        "availabilitySets_hmqapgav_name": {
+            "defaultValue": "hmqapgav",
+            "type": "String"
+        },
+        "availabilitySets_hmqasftpav_name": {
+            "defaultValue": "hmqasftpav",
+            "type": "String"
+        },
+        "availabilitySets_hmqasidekiqsav_name": {
+            "defaultValue": "hmqasidekiqsav",
+            "type": "String"
+        },
+        "availabilitySets_hmqawebav_name": {
+            "defaultValue": "hmqawebav",
+            "type": "String"
+        },
+        "virtualMachines_hm_qa_jump01_name": {
+            "defaultValue": "hm-qa-jump01",
+            "type": "String"
+        },
+        "virtualMachines_hm_qa_pg_m_name": {
+            "defaultValue": "hm-qa-pg-m",
+            "type": "String"
+        },
+        "virtualMachines_hm_qa_sftp_name": {
+            "defaultValue": "hm-qa-sftp",
+            "type": "String"
+        },
+        "virtualMachines_hm_qa_sidekiq01_name": {
+            "defaultValue": "hm-qa-sidekiq01",
+            "type": "String"
+        },
+        "virtualMachines_hm_qa_web01_name": {
+            "defaultValue": "hm-qa-web01",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_name": {
+            "defaultValue": "hm-qa-web-lb",
+            "type": "String"
+        },
+        "networkInterfaces_hm_qa_jump01107_name": {
+            "defaultValue": "hm-qa-jump01107",
+            "type": "String"
+        },
+        "networkInterfaces_hm_qa_pg_m17_name": {
+            "defaultValue": "hm-qa-pg-m17",
+            "type": "String"
+        },
+        "networkInterfaces_hm_qa_sftp734_name": {
+            "defaultValue": "hm-qa-sftp734",
+            "type": "String"
+        },
+        "networkInterfaces_hm_qa_sidekiq01362_name": {
+            "defaultValue": "hm-qa-sidekiq01362",
+            "type": "String"
+        },
+        "networkInterfaces_hm_qa_web01583_name": {
+            "defaultValue": "hm-qa-web01583",
+            "type": "String"
+        },
+        "networkSecurityGroups_qa_data_nsg_name": {
+            "defaultValue": "qa-data-nsg",
+            "type": "String"
+        },
+        "networkSecurityGroups_qa_dmz_nsg_name": {
+            "defaultValue": "qa-dmz-nsg",
+            "type": "String"
+        },
+        "networkSecurityGroups_qa_mgmt_nsg_name": {
+            "defaultValue": "qa-mgmt-nsg",
+            "type": "String"
+        },
+        "publicIPAddresses_hm_qa_jump01_ip_name": {
+            "defaultValue": "hm-qa-jump01-ip",
+            "type": "String"
+        },
+        "publicIPAddresses_hm_qa_sftp_ip_name": {
+            "defaultValue": "hm-qa-sftp-ip",
+            "type": "String"
+        },
+        "publicIPAddresses_hm_qa_web_name": {
+            "defaultValue": "hm-qa-web",
+            "type": "String"
+        },
+        "virtualNetworks_HM_QA_VNET_name": {
+            "defaultValue": "HM-QA-VNET",
+            "type": "String"
+        },
+        "storageAccounts_hmqadiagsa_name": {
+            "defaultValue": "hmqadiagsa",
+            "type": "String"
+        },
+        "storageAccounts_hmqamgmtsa_name": {
+            "defaultValue": "hmqamgmtsa",
+            "type": "String"
+        },
+        "storageAccounts_hmqapgm_name": {
+            "defaultValue": "hmqapgm",
+            "type": "String"
+        },
+        "storageAccounts_hmqasftpsa_name": {
+            "defaultValue": "hmqasftpsa",
+            "type": "String"
+        },
+        "storageAccounts_hmqasidekiqsa_name": {
+            "defaultValue": "hmqasidekiqsa",
+            "type": "String"
+        },
+        "storageAccounts_hmqaweb01_name": {
+            "defaultValue": "hmqaweb01",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/frontendIPConfigurations/LoadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id_1": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/backendAddressPools/hm-qa-web-pool",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id_2": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/probes/hm-qa-http-probe",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id_3": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/frontendIPConfigurations/LoadBalancerFrontEnd",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id_4": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/backendAddressPools/hm-qa-web-pool",
+            "type": "String"
+        },
+        "loadBalancers_hm_qa_web_lb_id_5": {
+            "defaultValue": "/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb/probes/hm-qa-https-probe",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Cache/Redis/hm-qa-cache'.",
+            "type": "Microsoft.Cache/Redis",
+            "name": "[parameters('Redis_hm_qa_cache_name')]",
+            "apiVersion": "2016-04-01",
+            "location": "West US",
+            "tags": {},
+            "properties": {
+                "redisVersion": "3.0",
+                "sku": {
+                    "name": "Basic",
+                    "family": "C",
+                    "capacity": 0
+                },
+                "enableNonSslPort": false,
+                "redisConfiguration": {
+                    "maxclients": "256",
+                    "maxmemory-reserved": "2",
+                    "maxmemory-delta": "2"
+                }
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/availabilitySets/hmqajumpav'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_hmqajumpav_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/availabilitySets/hmqapgav'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_hmqapgav_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/availabilitySets/hmqasftpav'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_hmqasftpav_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/availabilitySets/hmqasidekiqsav'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_hmqasidekiqsav_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/availabilitySets/hmqawebav'.",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_hmqawebav_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/virtualMachines/hm-qa-jump01'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_hm_qa_jump01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqajumpav_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "14.04.5-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_hm_qa_jump01_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_hmqamgmtsa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_jump01_name'),'2016918102720.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_hm_qa_jump01_name')]",
+                    "adminUsername": "hmuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/hmuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLsMviMMsh85yG5y5K6+bbx8yu+HIQ/w4hYLbMHf+xyllI/kvgUtppmcNQ3RtcMH4w68wABSgeSMopDY4oC4xl6+Nys3Jxx27FdRS71ZDGRxEH54L1RiPQE57t+ZSC+N8wZuGdTg29gmyz2jwgpCbHv6zDnKGU2ULFGGylhvdkusUAkZgPnMFyOcOOVPA3ykykUcZtTCE4Ol/XThiOdf1eMN8YFm7/+4x89vrRI1d9v/v1ozMMPGaExRtE25XYZDv/qy4+YfMpSV4H51lGmnCXEdHhpNsW2OwWlzMmKBLQ30Lb+JnIi38w9FIJAbxRNGvVdB/aTTUfExtfHmXlBZDN"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_hm_qa_jump01_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_jump01107_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqajumpav_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hmqamgmtsa_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_jump01107_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/virtualMachines/hm-qa-pg-m'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_hm_qa_pg_m_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqapgav_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "14.04.5-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_hm_qa_pg_m_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_hmqapgm_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_pg_m_name'),'201691811732.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "hm-qa-pg-disk1",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('https', '://', parameters('storageAccounts_hmqapgm_name'), '.blob.core.windows.net', '/vhds/hm-qa-pg-disk1.vhd')]"
+                            },
+                            "caching": "ReadOnly",
+                            "diskSizeGB": 128
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_hm_qa_pg_m_name')]",
+                    "adminUsername": "hmuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/hmuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLsMviMMsh85yG5y5K6+bbx8yu+HIQ/w4hYLbMHf+xyllI/kvgUtppmcNQ3RtcMH4w68wABSgeSMopDY4oC4xl6+Nys3Jxx27FdRS71ZDGRxEH54L1RiPQE57t+ZSC+N8wZuGdTg29gmyz2jwgpCbHv6zDnKGU2ULFGGylhvdkusUAkZgPnMFyOcOOVPA3ykykUcZtTCE4Ol/XThiOdf1eMN8YFm7/+4x89vrRI1d9v/v1ozMMPGaExRtE25XYZDv/qy4+YfMpSV4H51lGmnCXEdHhpNsW2OwWlzMmKBLQ30Lb+JnIi38w9FIJAbxRNGvVdB/aTTUfExtfHmXlBZDN"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_hm_qa_pg_m_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "properties": {
+                                "primary": "[parameters('virtualMachines_hm_qa_pg_m_primary')]"
+                            },
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_pg_m17_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqapgav_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hmqapgm_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_pg_m17_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/virtualMachines/hm-qa-sftp'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_hm_qa_sftp_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "plan": {
+                "name": "4-3",
+                "product": "nodejs",
+                "publisher": "bitnami"
+            },
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqasftpav_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_D1_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "bitnami",
+                        "offer": "nodejs",
+                        "sku": "4-3",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_hm_qa_sftp_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_hmqasftpsa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_sftp_name'),'2016918104016.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_hm_qa_sftp_name')]",
+                    "adminUsername": "hmuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/hmuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLsMviMMsh85yG5y5K6+bbx8yu+HIQ/w4hYLbMHf+xyllI/kvgUtppmcNQ3RtcMH4w68wABSgeSMopDY4oC4xl6+Nys3Jxx27FdRS71ZDGRxEH54L1RiPQE57t+ZSC+N8wZuGdTg29gmyz2jwgpCbHv6zDnKGU2ULFGGylhvdkusUAkZgPnMFyOcOOVPA3ykykUcZtTCE4Ol/XThiOdf1eMN8YFm7/+4x89vrRI1d9v/v1ozMMPGaExRtE25XYZDv/qy4+YfMpSV4H51lGmnCXEdHhpNsW2OwWlzMmKBLQ30Lb+JnIi38w9FIJAbxRNGvVdB/aTTUfExtfHmXlBZDN"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_hm_qa_sftp_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_sftp734_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqasftpav_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hmqasftpsa_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_sftp734_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/virtualMachines/hm-qa-sidekiq01'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_hm_qa_sidekiq01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqasidekiqsav_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "14.04.5-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_hm_qa_sidekiq01_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_hmqasidekiqsa_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_sidekiq01_name'),'2016918105322.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_hm_qa_sidekiq01_name')]",
+                    "adminUsername": "hmuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/hmuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLsMviMMsh85yG5y5K6+bbx8yu+HIQ/w4hYLbMHf+xyllI/kvgUtppmcNQ3RtcMH4w68wABSgeSMopDY4oC4xl6+Nys3Jxx27FdRS71ZDGRxEH54L1RiPQE57t+ZSC+N8wZuGdTg29gmyz2jwgpCbHv6zDnKGU2ULFGGylhvdkusUAkZgPnMFyOcOOVPA3ykykUcZtTCE4Ol/XThiOdf1eMN8YFm7/+4x89vrRI1d9v/v1ozMMPGaExRtE25XYZDv/qy4+YfMpSV4H51lGmnCXEdHhpNsW2OwWlzMmKBLQ30Lb+JnIi38w9FIJAbxRNGvVdB/aTTUfExtfHmXlBZDN"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_hm_qa_sidekiq01_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_sidekiq01362_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqasidekiqsav_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hmqasidekiqsa_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_sidekiq01362_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Compute/virtualMachines/hm-qa-web01'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_hm_qa_web01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westus",
+            "tags": {},
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqawebav_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_DS2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "14.04.5-LTS",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_hm_qa_web01_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_hmqaweb01_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_web01_name'),'201691810452.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_hm_qa_web01_name'),'-data1')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('https', '://', parameters('storageAccounts_hmqaweb01_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_hm_qa_web01_name'),'-data1.vhd'))]"
+                            },
+                            "caching": "None",
+                            "diskSizeGB": 100
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_hm_qa_web01_name')]",
+                    "adminUsername": "hmuser",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": true,
+                        "ssh": {
+                            "publicKeys": [
+                                {
+                                    "path": "/home/hmuser/.ssh/authorized_keys",
+                                    "keyData": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDLsMviMMsh85yG5y5K6+bbx8yu+HIQ/w4hYLbMHf+xyllI/kvgUtppmcNQ3RtcMH4w68wABSgeSMopDY4oC4xl6+Nys3Jxx27FdRS71ZDGRxEH54L1RiPQE57t+ZSC+N8wZuGdTg29gmyz2jwgpCbHv6zDnKGU2ULFGGylhvdkusUAkZgPnMFyOcOOVPA3ykykUcZtTCE4Ol/XThiOdf1eMN8YFm7/+4x89vrRI1d9v/v1ozMMPGaExRtE25XYZDv/qy4+YfMpSV4H51lGmnCXEdHhpNsW2OwWlzMmKBLQ30Lb+JnIi38w9FIJAbxRNGvVdB/aTTUfExtfHmXlBZDN"
+                                }
+                            ]
+                        }
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_hm_qa_web01_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "properties": {
+                                "primary": "[parameters('virtualMachines_hm_qa_web01_primary')]"
+                            },
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_web01583_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_hmqawebav_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_hmqaweb01_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_hm_qa_web01583_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/loadBalancers/hm-qa-web-lb'.",
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_hm_qa_web_lb_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "LoadBalancerFrontEnd",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_web_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "hm-qa-web-pool"
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "hm-qa-web-http",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "Default",
+                            "backendAddressPool": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id_1')]"
+                            },
+                            "probe": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id_2')]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "hm-qa-web-https",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id_3')]"
+                            },
+                            "frontendPort": 443,
+                            "backendPort": 443,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "loadDistribution": "Default",
+                            "backendAddressPool": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id_4')]"
+                            },
+                            "probe": {
+                                "id": "[parameters('loadBalancers_hm_qa_web_lb_id_5')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "hm-qa-https-probe",
+                        "properties": {
+                            "protocol": "Tcp",
+                            "port": 443,
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    },
+                    {
+                        "name": "hm-qa-http-probe",
+                        "properties": {
+                            "protocol": "Http",
+                            "port": 80,
+                            "requestPath": "/users/sign_in",
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "outboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_web_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkInterfaces/hm-qa-jump01107'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_hm_qa_jump01107_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "11.0.0.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_jump01_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name')), '/subnets/qa-mgmt')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_mgmt_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_jump01_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_mgmt_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkInterfaces/hm-qa-pg-m17'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_hm_qa_pg_m17_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "11.0.2.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name')), '/subnets/qa-data')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_data_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_data_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkInterfaces/hm-qa-sftp734'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_hm_qa_sftp734_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "11.0.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_sftp_ip_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name')), '/subnets/qa-dmz')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_hm_qa_sftp_ip_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkInterfaces/hm-qa-sidekiq01362'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_hm_qa_sidekiq01362_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "11.0.1.6",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name')), '/subnets/qa-dmz')]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkInterfaces/hm-qa-web01583'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_hm_qa_web01583_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "11.0.1.5",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name')), '/subnets/qa-dmz')]"
+                            },
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_hm_qa_web_lb_name')), '/backendAddressPools/hm-qa-web-pool')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false,
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_HM_QA_VNET_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_hm_qa_web_lb_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkSecurityGroups/qa-data-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_qa_data_nsg_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "AllowPG",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5432",
+                            "sourceAddressPrefix": "11.0.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowPG-DMZ",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5432",
+                            "sourceAddressPrefix": "11.0.1.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowSSH",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "11.0.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkSecurityGroups/qa-dmz-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_qa_dmz_nsg_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "AllowHTTP",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "80",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowHTTPS",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowSSH",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "11.0.0.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/networkSecurityGroups/qa-mgmt-nsg'.",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "name": "[parameters('networkSecurityGroups_qa_mgmt_nsg_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "AllowSSH",
+                        "properties": {
+                            "protocol": "TCP",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "22",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Inbound"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/publicIPAddresses/hm-qa-jump01-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_hm_qa_jump01_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "hm-qa-jump01"
+                }
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/publicIPAddresses/hm-qa-sftp-ip'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_hm_qa_sftp_ip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/publicIPAddresses/hm-qa-web'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_hm_qa_web_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/HM-RoR/providers/Microsoft.Network/virtualNetworks/HM-QA-VNET'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_HM_QA_VNET_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westus",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "11.0.0.0/16"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "qa-mgmt",
+                        "properties": {
+                            "addressPrefix": "11.0.0.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_mgmt_nsg_name'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "qa-dmz",
+                        "properties": {
+                            "addressPrefix": "11.0.1.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]"
+                            }
+                        }
+                    },
+                    {
+                        "name": "qa-data",
+                        "properties": {
+                            "addressPrefix": "11.0.2.0/24",
+                            "networkSecurityGroup": {
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_data_nsg_name'))]"
+                            }
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_mgmt_nsg_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_dmz_nsg_name'))]",
+                "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroups_qa_data_nsg_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqadiagsa'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqadiagsa_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqamgmtsa'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqamgmtsa_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqapgm'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Premium_LRS",
+                "tier": "Premium"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqapgm_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqasftpsa'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqasftpsa_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqasidekiqsa'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqasidekiqsa_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b6f71531-fe5d-4f7e-8bae-ab15c053bbe7/resourceGroups/hm-ror/providers/Microsoft.Storage/storageAccounts/hmqaweb01'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_hmqaweb01_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westus",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        }
+    ]
+}
