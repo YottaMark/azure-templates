@@ -35,6 +35,8 @@ then
 fi
 
 #Format the data disk
+wget https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh
+sudo chmod +x vm-disk-utils-0.1.sh
 bash vm-disk-utils-0.1.sh -s
 
 # TEMP FIX - Re-evaluate and remove when possible
